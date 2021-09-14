@@ -1,0 +1,81 @@
+var car;
+var path,boy, leftBoundary,rightBoundary;
+var pathImg,boyImg;
+var i;
+
+
+function preload(){
+  pathImg = loadImage("path.png");
+  boyImg = loadAnimation("Runner-1.png","Runner-2.png");
+  carImg = loadImage("car.jpg");
+}
+
+function setup(){
+  
+  createCanvas(400,400);
+  
+// Moving background
+path=createSprite(200,200);
+path.addImage(pathImg);
+path.velocityY = 4;
+path.scale=1.2;
+
+car=createSprite(100,0);
+car.addImage(carImg);
+car.velocityY = 6;
+car.scale=0.1;
+car.depth
+
+//creating boy running
+boy = createSprite(180,340,30,30);
+boy.scale=0.08;
+boy.addAnimation("JakeRunning",boyImg);
+  
+
+leftBoundary=createSprite(0,0,100,800);
+
+// leftBoundary.invisible = false;
+// leftBoundary.visible = true;
+// leftBoundary.invisible = true;
+leftBoundary.visible = false;
+
+
+rightBoundary=createSprite(410,0,100,800);
+rightBoundary.visible = false;
+}
+
+function draw() {
+
+  background(0);
+  path.velocityY = 4;
+  
+  boy.x = World.mouseX;
+  
+  edges= createEdgeSprites();
+  boy.collide(edges[3]);
+  boy.collide(leftBoundary);
+  boy.collide(rightBoundary);
+  
+  //code to reset the background
+
+  if(path.y > 400 ){
+    path.y = height/2;
+  }
+
+  if(car.y > 400) {
+    car.y = 0;
+    car.velocityY = 6;
+
+    var x_diff = 100-300;
+    var rand = Math.random();
+    car.x = rand * x_diff + 300;
+  }
+
+  if(boy.isTouching(car)) {
+    path.visible = false;
+    boy.visible = false;
+    car.visible = false;
+    background(255);
+  }
+  drawSprites();
+}
